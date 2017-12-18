@@ -4,11 +4,17 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Ball {
-	int x, y;
-	int xVelocity, yVelocity;
+	private int x, y;
+	private int xVelocity, yVelocity;
 	
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
+	}
 	
-	public Ball(Board board) {
+	public Ball() {
 		//x = board.getWidth()/2;
 		//y = board.getHeight()/2;
 		
@@ -50,8 +56,12 @@ public class Ball {
 	public void move(Board board, ScoreBoard scoreBoard) {
 		x+=xVelocity;
 		y+=yVelocity;
-		
-		
+		if (y> board.getHeight() - 10 || y < 10 ) {
+			yVelocity *= -1;
+		}
+	}
+
+	public void checkIfScored(Board board, ScoreBoard scoreBoard) {
 		if ( x > board.getWidth()-10 ) {
 			scoreBoard.addPoints(1);
 			resetBallPosition(1);
@@ -59,9 +69,6 @@ public class Ball {
 		else if ( x < 10 ) {
 			scoreBoard.addPoints(2);
 			resetBallPosition(-1);
-		}
-		if (y> board.getHeight() - 10 || y < 10 ) {
-			yVelocity *= -1;
 		}
 	}
 	

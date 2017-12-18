@@ -5,7 +5,8 @@ import java.awt.Graphics;
 
 public abstract class Paddle {
 	
-	int x, y;
+	protected int x;
+	protected int y;
 	
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.white);

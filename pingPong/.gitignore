@@ -5,3 +5,7 @@
 /Paddle.class
 /PlayerPaddle.class
 /ScoreBoard.class
+/BoardRenderer.class
+/ScoringTest.class
+/Junit.class
+/Tests.class

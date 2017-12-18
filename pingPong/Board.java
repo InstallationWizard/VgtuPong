@@ -18,20 +18,22 @@ import javax.swing.JPanel;
 public class Board extends JPanel implements KeyListener, Runnable{
 
 	
-	Thread thread;
+	private Thread thread;
 	
-	PlayerPaddle leftPaddle;
-	PlayerPaddle rightPaddle;
+	private PlayerPaddle leftPaddle;
+	private PlayerPaddle rightPaddle;
 	
-	Ball ball;
+	private Ball ball;
 	
-	MiddleLine middleLine;
+	private MiddleLine middleLine;
 	
-	ScoreBoard scoreBoard;
+	private ScoreBoard scoreBoard;
 	
-	boolean paused = true;
+	private boolean paused = true;
+	 
+	private static int height, width;
 	
-	public static int height, width;
+	private BoardRenderer renderer = new BoardRenderer();
 	
 	Board(){
 		initBoard();
@@ -55,25 +57,24 @@ public class Board extends JPanel implements KeyListener, Runnable{
 		
 		scoreBoard = new ScoreBoard();
 		
-		ball  = new Ball(this);
+		ball  = new Ball();
 		
 		this.addKeyListener(this);
+		
+		this.setBackground(Color.black);
+		this.setFocusable(true);
+		this.requestFocusInWindow();
 	}
 
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		renderer.paintMiddleLine(g, middleLine);
+		renderer.paintPaddle(g, leftPaddle);
+		renderer.paintPaddle(g, rightPaddle);
+		renderer.paintBall(g,ball);
+		renderer.paintScoreBoard(g, scoreBoard, this);
 		
-		g.setColor(Color.black);
-		this.setBackground(Color.black);
-		this.setFocusable(true);
-		this.requestFocusInWindow();
-		
-		middleLine.paintComponent(g);
-		leftPaddle.paintComponent(g);
-		rightPaddle.paintComponent(g);
-		ball.paintComponent(g);
-		scoreBoard.paintComponent(g,this);
 		
 	}
 	
@@ -128,10 +129,10 @@ public class Board extends JPanel implements KeyListener, Runnable{
 			
 			if(!paused) {
 				moveGameObjects();
-			
-				if(ball != null)
+				if(ball != null) {
 					ball.checkCollision(leftPaddle, rightPaddle, this);
-			
+					ball.checkIfScored(this, scoreBoard);
+				}
 				repaint();
 			}
 			
